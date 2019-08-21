@@ -1,0 +1,268 @@
+/*
+	sv_progs.h
+
+	server specific progs definitions
+
+	Copyright (C) 2000       Bill Currie
+
+	Author: Bill Currie
+	Date: 28 Feb 2001
+
+	This program is free software; you can redistribute it and/or
+	modify it under the terms of the GNU General Public License
+	as published by the Free Software Foundation; either version 2
+	of the License, or (at your option) any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	See the GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to:
+
+		Free Software Foundation, Inc.
+		59 Temple Place - Suite 330
+		Boston, MA  02111-1307, USA
+
+*/
+
+#ifndef __sv_progs_h
+#define __sv_progs_h
+
+#include "QF/link.h"
+#include "QF/progs.h"
+
+#include "qw/protocol.h"
+#include "sv_pr_cmds.h"
+
+typedef struct {
+	pr_int_t   *self;
+	pr_int_t   *other;
+	pr_int_t   *world;
+	float      *time;
+	float      *frametime;
+	pr_int_t   *newmis;
+	float      *force_retouch;
+	string_t   *mapname;
+	float      *serverflags;
+	float      *total_secrets;
+	float      *total_monsters;
+	float      *found_secrets;
+	float      *killed_monsters;
+	float      *parms;			// an actual array
+	vec3_t     *v_forward;
+	vec3_t     *v_up;
+	vec3_t     *v_right;
+	float      *trace_allsolid;
+	float      *trace_startsolid;
+	float      *trace_fraction;
+	vec3_t     *trace_endpos;
+	vec3_t     *trace_plane_normal;
+	float      *trace_plane_dist;
+	pr_int_t   *trace_ent;
+	float      *trace_inopen;
+	float      *trace_inwater;
+	pr_int_t   *msg_entity;
+	float      *skill;
+} sv_globals_t;
+
+extern sv_globals_t sv_globals;
+
+typedef struct {
+	func_t      main;
+	func_t      StartFrame;
+	func_t      PlayerPreThink;
+	func_t      PlayerPostThink;
+	func_t      ClientKill;
+	func_t      ClientConnect;
+	func_t      PutClientInServer;
+	func_t      ClientDisconnect;
+	func_t      SetNewParms;
+	func_t      SetChangeParms;
+
+	func_t      EndFrame;
+	func_t      SpectatorConnect;
+	func_t      SpectatorThink;
+	func_t      SpectatorDisconnect;
+	func_t      UserInfoCallback;
+	func_t      UserInfoChanged;
+	func_t      ChatMessage;
+	func_t      LocalinfoChanged;
+} sv_funcs_t;
+
+extern sv_funcs_t sv_funcs;
+
+typedef struct
+{
+	pr_int_t    modelindex;			//float
+	pr_int_t    absmin;				//vec3_t
+	pr_int_t    absmax;				//vec3_t
+	pr_int_t    ltime;				//float
+	pr_int_t    lastruntime;		//float
+	pr_int_t    movetype;			//float
+	pr_int_t    solid;				//float
+	pr_int_t    origin;				//vec3_t
+	pr_int_t    oldorigin;			//vec3_t
+	pr_int_t    velocity;			//vec3_t
+	pr_int_t    angles;				//vec3_t
+	pr_int_t    avelocity;			//vec3_t
+	pr_int_t    classname;			//string_t
+	pr_int_t    model;				//string_t
+	pr_int_t    frame;				//float
+	pr_int_t    skin;				//float
+	pr_int_t    effects;			//float
+	pr_int_t    mins;				//vec3_t
+	pr_int_t    maxs;				//vec3_t
+	pr_int_t    size;				//vec3_t
+	pr_int_t    touch;				//func_t
+	pr_int_t    think;				//func_t
+	pr_int_t    blocked;			//func_t
+	pr_int_t    nextthink;			//float
+	pr_int_t    groundentity;		//int
+	pr_int_t    health;				//float
+	pr_int_t    frags;				//float
+	pr_int_t    weapon;				//float
+	pr_int_t    weaponmodel;		//string_t
+	pr_int_t    weaponframe;		//float
+	pr_int_t    currentammo;		//float
+	pr_int_t    ammo_shells;		//float
+	pr_int_t    ammo_nails;			//float
+	pr_int_t    ammo_rockets;		//float
+	pr_int_t    ammo_cells;			//float
+	pr_int_t    items;				//float
+	pr_int_t    takedamage;			//float
+	pr_int_t    chain;				//int
+	pr_int_t    view_ofs;			//vec3_t
+	pr_int_t    button0;			//float
+	pr_int_t    button1;			//float
+	pr_int_t    button2;			//float
+	pr_int_t    impulse;			//float
+	pr_int_t    fixangle;			//float
+	pr_int_t    v_angle;			//vec3_t
+	pr_int_t    netname;			//string_t
+	pr_int_t    enemy;				//int
+	pr_int_t    flags;				//float
+	pr_int_t    colormap;			//float
+	pr_int_t    team;				//float
+	pr_int_t    teleport_time;		//float
+	pr_int_t    armorvalue;			//float
+	pr_int_t    waterlevel;			//float
+	pr_int_t    watertype;			//float
+	pr_int_t    ideal_yaw;			//float
+	pr_int_t    yaw_speed;			//float
+	pr_int_t    goalentity;			//int
+	pr_int_t    spawnflags;			//float
+	pr_int_t    dmg_take;			//float
+	pr_int_t    dmg_save;			//float
+	pr_int_t    dmg_inflictor;		//int
+	pr_int_t    owner;				//int
+	pr_int_t    message;			//string_t
+	pr_int_t    sounds;				//float
+	pr_int_t    rotated_bbox;		//int
+
+	pr_int_t    alpha;
+	pr_int_t    scale;
+	pr_int_t    glow_size;
+	pr_int_t    glow_color;
+	pr_int_t    colormod;
+
+	pr_int_t    gravity;
+	pr_int_t    maxspeed;
+
+	pr_int_t    team_str;		//string
+} sv_fields_t;
+
+extern sv_fields_t sv_fields;
+
+extern progs_t sv_pr_state;
+
+#define PR_RANGE_ID		0x0000
+#define PR_RANGE_ID_MAX	82
+#define PR_RANGE_QWE	0x0001
+#define PR_RANGE_CPQW	0x0002
+
+#if TYPECHECK_PROGS
+#define SVFIELD(e,f,t) E_var (e, PR_AccessField (&sv_pr_state, #f, ev_##t, __FILE__, __LINE__), t)
+#else
+#define SVFIELD(e,f,t) E_var (e, sv_fields.f, t)
+#endif
+
+#define SVfloat(e,f)	SVFIELD (e, f, float)
+#define SVstring(e,f)	SVFIELD (e, f, string)
+#define SVfunc(e,f)		SVFIELD (e, f, func)
+#define SVentity(e,f)	SVFIELD (e, f, entity)
+#define SVvector(e,f)	SVFIELD (e, f, vector)
+#define SVinteger(e,f)	SVFIELD (e, f, integer)
+
+typedef struct edict_leaf_s {
+	struct edict_leaf_s *next;
+	unsigned    leafnum;
+} edict_leaf_t;
+
+typedef struct sv_data_s {
+	edict_t    *edict;
+	link_t      area;			///< linked to a division node or leaf
+	edict_leaf_t *leafs;
+	entity_state_t state;
+	qboolean    add_grav;
+} sv_data_t;
+
+#define SVdata(e)		((sv_data_t *) ((e)->edata))
+#define EDICT_FROM_AREA(l) (STRUCT_FROM_LINK(l,sv_data_t,area)->edict)
+
+static inline void
+sv_pr_touch (edict_t *self, edict_t *other)
+{
+	pr_int_t    this;
+
+	*sv_globals.self = EDICT_TO_PROG (&sv_pr_state, self);
+	*sv_globals.other = EDICT_TO_PROG (&sv_pr_state, other);
+	if ((this = sv_pr_state.fields.this) != -1) {
+		PR_RESET_PARAMS (&sv_pr_state);
+		P_INT (&sv_pr_state, 0) = E_POINTER (self, this);
+		P_INT (&sv_pr_state, 1) = 0;
+		P_INT (&sv_pr_state, 2) = E_POINTER (other, this);
+	}
+	PR_ExecuteProgram (&sv_pr_state, SVfunc (self, touch));
+}
+
+static inline void
+sv_pr_use (edict_t *self, edict_t *other)
+{
+}
+
+static inline void
+sv_pr_think (edict_t *self)
+{
+	pr_int_t    this;
+
+	*sv_globals.self = EDICT_TO_PROG (&sv_pr_state, self);
+	*sv_globals.other = 0;
+	if ((this = sv_pr_state.fields.this) != -1) {
+		PR_RESET_PARAMS (&sv_pr_state);
+		P_INT (&sv_pr_state, 0) = E_POINTER (self, this);
+		P_INT (&sv_pr_state, 1) = 0;
+		P_INT (&sv_pr_state, 2) = 0;
+	}
+	PR_ExecuteProgram (&sv_pr_state, SVfunc (self, think));
+}
+
+static inline void
+sv_pr_blocked (edict_t *self, edict_t *other)
+{
+	pr_int_t    this;
+
+	*sv_globals.self = EDICT_TO_PROG (&sv_pr_state, self);
+	*sv_globals.other = EDICT_TO_PROG (&sv_pr_state, other);
+	if ((this = sv_pr_state.fields.this) != -1) {
+		PR_RESET_PARAMS (&sv_pr_state);
+		P_INT (&sv_pr_state, 0) = E_POINTER (self, this);
+		P_INT (&sv_pr_state, 1) = 0;
+		P_INT (&sv_pr_state, 2) = E_POINTER (other, this);
+	}
+	PR_ExecuteProgram (&sv_pr_state, SVfunc (self, blocked));
+}
+
+#endif // __sv_progs_h
